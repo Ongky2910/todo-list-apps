@@ -10,6 +10,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const saveUserInfoButton = document.getElementById('save-profile');
     const navUsername = document.getElementById('nav-username');
     const navPosition = document.getElementById('nav-position');
+    const role = document.getElementById("user-role").textContent.trim(); 
+    const avatar = document.getElementById("user-avatar");
+  
+    // Avatar berdasarkan role
+  const avatarMap = {
+    "Frontend Developer": "https://cdn-icons-png.flaticon.com/128/1995/1995415.png", // Laptop
+    "Backend Developer": "https://cdn-icons-png.flaticon.com/128/2875/2875112.png", // Gear
+    "UI/UX Designer": "https://cdn-icons-png.flaticon.com/128/1995/1995489.png", // Palette
+    "Manager": "https://cdn-icons-png.flaticon.com/128/3135/3135731.png", // Business Suit
+    "Default": "https://cdn-icons-png.flaticon.com/128/847/847969.png" // Generic User
+};
+
+// Cek role, set avatar
+avatar.src = avatarMap[role] || avatarMap["Default"];
+});
 
     // Load user info from localStorage
     function loadUserInfo() {
@@ -34,28 +49,54 @@ document.addEventListener('DOMContentLoaded', function () {
             localStorage.setItem('userName', name);
             localStorage.setItem('userPosition', position);
             loadUserInfo();
-            window.location.hash = "#user-info"; // Navigasi ke elemen user info
-
-
-     //Show notification success
-     const confirmationMessage = document.getElementById('confirmation-message');
-     confirmationMessage.textContent = "Profile updated successfully!";
-     confirmationMessage.style.display = "block";
-
-     // remove after 3 second
-     setTimeout(() => {
-         confirmationMessage.style.display = "none";
-     }, 3000);
- }
-}
-    // Display current date and time
-    function updateTime() {
-        const now = new Date();
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        currentTimeElement.textContent = now.toLocaleDateString(undefined, options) + ' ' + now.toLocaleTimeString();
+            window.location.hash = "#user-info";
+    
+            // Show notification success
+            const confirmationMessage = document.getElementById('confirmation-message');
+            confirmationMessage.textContent = "Profile updated successfully!";
+            confirmationMessage.style.display = "block";
+            confirmationMessage.style.opacity = "1";
+    
+            // Remove after 3 seconds
+            setTimeout(() => {
+                confirmationMessage.style.opacity = "0";
+                setTimeout(() => {
+                    confirmationMessage.style.display = "none";
+                }, 500);
+            }, 3000);
+        }
     }
-    setInterval(updateTime, 1000);
-    updateTime();
+    
+    // Display current date and time
+    function updateDateTime() {
+        const now = new Date();
+    
+        // Format Tanggal
+        const optionsDate = { weekday: 'long', year: 'numeric', month: 'long', day: '2-digit' };
+        const formattedDate = now.toLocaleDateString('en-GB', optionsDate);
+    
+        // Format Waktu (12 jam dengan AM/PM)
+        const optionsTime = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+        const formattedTime = now.toLocaleTimeString('en-US', optionsTime);
+    
+        // Update elemen yang menampilkan tanggal & waktu
+        const dateTimeElement = document.getElementById('date-time');
+        if (dateTimeElement) {
+            dateTimeElement.innerHTML = `<i class="fa-regular fa-calendar"></i> ${formattedDate} - <i class="fa-regular fa-clock"></i> ${formattedTime}`;
+        }
+    
+        const dateElement = document.getElementById("current-date");
+        if (dateElement) dateElement.textContent = formattedDate;
+    
+        const timeElement = document.getElementById("current-time");
+        if (timeElement) timeElement.textContent = formattedTime;
+    }
+    
+    // Jalankan setiap detik
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+    
+    
 
     // Add new task
     addTaskButton.addEventListener('click', function () {
