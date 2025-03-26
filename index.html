@@ -13,10 +13,19 @@
 <body>
     <!-- Navbar -->
     <nav class="navbar">
-        <div class="logo">To-Do List</div>
-        <div class="clock" id="current-time"></div>
+        <div class="nav-left">
+            <h1>To-DO List</h1>
+        </div>
+        <div class="nav-right">
+            <span id="user-info">Welcome, <span id="nav-username">User</span> - <span id="nav-position">Position</span></span>
+            <span id="task-count">Pending Tasks: 0</span>
+            <button id="sync-btn">🔄 Sync</button>
+            <div class="datetime-container">
+                <span id="current-date"></span>
+                <span id="current-time"></span>
+            </div>
+        </div>
     </nav>
-
     <div class="container">
         <header>
             <h1>Daily Tasks <img src="/vecteezy_to-do-list-icon-design_31738279.png" /></h1>

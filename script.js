@@ -5,6 +5,32 @@ document.addEventListener('DOMContentLoaded', function () {
     const addTaskButton = document.getElementById('add-task');
     const deleteAllTasksButton = document.getElementById('delete-all-tasks');
     const currentTimeElement = document.getElementById('current-time');
+    const userNameInput = document.getElementById('name');
+    const userPositionInput = document.getElementById('position');
+    const saveUserInfoButton = document.getElementById('save-user-info');
+    const navUsername = document.getElementById('nav-username');
+    const navPosition = document.getElementById('nav-position');
+
+    // Load user info from localStorage
+    function loadUserInfo() {
+        const name = localStorage.getItem('userName') || 'User';
+        const position = localStorage.getItem('userPosition') || 'Position';
+        navUsername.textContent = name;
+        navPosition.textContent = position;
+        userNameInput.value = name !== 'User' ? name : '';
+        userPositionInput.value = position !== 'Position' ? position : '';
+    }
+
+    // Save user info to localStorage
+    function saveUserInfo() {
+        const name = userNameInput.value.trim();
+        const position = userPositionInput.value.trim();
+        if (name && position) {
+            localStorage.setItem('userName', name);
+            localStorage.setItem('userPosition', position);
+            loadUserInfo();
+        }
+    }
 
     // Display current date and time
     function updateTime() {
@@ -28,7 +54,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const now = new Date();
         const taskTime = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
 
-
         const taskItem = document.createElement('li');
         taskItem.innerHTML = `
             <input type="checkbox" class="task-done-checkbox">
@@ -39,16 +64,12 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
         `;
 
-        console.log("Task Item Created:", taskItem);
-
-        //check overdue 
+        // Check overdue 
         if (taskDueDate < now) {
             taskItem.classList.add('overdue');
             overdueTasksUL.appendChild(taskItem);
-            console.log("Task is overdue. Added to overdue tasks.");
         } else {
             tasksUl.appendChild(taskItem);
-            console.log("Task added to regular tasks.");
         }
 
         const deleteBtn = document.createElement('button');
@@ -78,7 +99,10 @@ document.addEventListener('DOMContentLoaded', function () {
         doneTasksUl.innerHTML = '';
         overdueTasksUL.innerHTML = '';
     });
+
+    // Load user info on page load
+    loadUserInfo();
+
+    // Event listener for saving user info
+    saveUserInfoButton.addEventListener('click', saveUserInfo);
 });
-
-
-
