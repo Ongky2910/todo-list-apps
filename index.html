@@ -11,13 +11,16 @@
 </head>
 
 <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">To-Do List</div>
+        <div class="clock" id="current-time"></div>
+    </nav>
+
     <div class="container">
         <header>
-            <h1>Daily Tasks<img src="/vecteezy_to-do-list-icon-design_31738279.png" /></h1>
+            <h1>Daily Tasks <img src="/vecteezy_to-do-list-icon-design_31738279.png" /></h1>
             <div class="profile-info">
-                <div class="time-info">
-                    <p id="current-time"></p>
-                </div>
                 <p>Name: <input type="text" id="profile-name" placeholder="Enter your name"></p>
                 <p class="profile-role">Position:
                     <select id="profile-role">
@@ -29,45 +32,52 @@
                         <option value="uxdesigner">UX Designer</option>
                     </select>
                 </p>
+            </div>
         </header>
+
         <main>
             <section class="new-task">
                 <h2>New Task</h2>
                 <input type="text" id="task-title" placeholder="Enter task">
-                <div class="task-options">
-                    <label>
-                        <input type="radio" name="priority" value="low" checked>
-                        Low
-                    </label>
-                    <label>
-                        <input type="radio" name="priority" value="medium">
-                        Medium
-                    </label>
-                    <label>
-                        <input type="radio" name="priority" value="high">
-                        High
-                    </label>
+                <div class="priority-options">
+                    <label><input type="radio" name="priority" value="low" checked> Low</label>
+                    <label><input type="radio" name="priority" value="medium"> Medium</label>
+                    <label><input type="radio" name="priority" value="high"> High</label>
+                </div>
+                <label for="due-date">Exp Date:</label>
+                <input type="date" id="due-date">
+                <button id="add-task">Submit</button>
             </section>
-            <label for="due-date">Exp Date:</label>
-            <input type="date" id="due-date">
-            <button id="add-task">Submit</button>
+
             <section class="task-list">
                 <h2><i class="fas fa-tasks"></i> To-Do Lists</h2>
                 <ul id="tasks"></ul>
                 <ul id="overdue-tasks"></ul>
+
                 <section class="done-list">
                     <h2><i class="fas fa-check-circle"></i> Completed Tasks</h2>
                     <ul id="done-tasks"></ul>
                 </section>
             </section>
+        </main>
+
+        <button id="delete-all-tasks">Delete All Tasks</button>
     </div>
-    <button id="delete-all-tasks">Delete All Tasks</button>
-    </main>
-    </div>
+
     <footer>
         <h3>2024 &copy; <span class="made">Made by OngkyPermana</span></h3>
     </footer>
+
     <script src="script.js"></script>
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const options = { weekday: 'short', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            document.getElementById('current-time').textContent = now.toLocaleString('en-US', options);
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
 </body>
 
 </html>
