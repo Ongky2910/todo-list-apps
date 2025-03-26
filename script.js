@@ -5,21 +5,26 @@ document.addEventListener('DOMContentLoaded', function () {
     const addTaskButton = document.getElementById('add-task');
     const deleteAllTasksButton = document.getElementById('delete-all-tasks');
     const currentTimeElement = document.getElementById('current-time');
-    const userNameInput = document.getElementById('name');
-    const userPositionInput = document.getElementById('position');
-    const saveUserInfoButton = document.getElementById('save-user-info');
+    const userNameInput = document.getElementById('profile-name');
+    const userPositionInput = document.getElementById('profile-role');
+    const saveUserInfoButton = document.getElementById('save-profile');
     const navUsername = document.getElementById('nav-username');
     const navPosition = document.getElementById('nav-position');
 
     // Load user info from localStorage
     function loadUserInfo() {
         const name = localStorage.getItem('userName') || 'User';
-        const position = localStorage.getItem('userPosition') || 'Position';
+        const position = localStorage.getItem('userPosition') || '';
+
         navUsername.textContent = name;
-        navPosition.textContent = position;
         userNameInput.value = name !== 'User' ? name : '';
-        userPositionInput.value = position !== 'Position' ? position : '';
+    
+        navPosition.textContent = position || 'Position';
+        if (position) {
+            userPositionInput.value = position;
+        }
     }
+    
 
     // Save user info to localStorage
     function saveUserInfo() {
@@ -29,9 +34,20 @@ document.addEventListener('DOMContentLoaded', function () {
             localStorage.setItem('userName', name);
             localStorage.setItem('userPosition', position);
             loadUserInfo();
-        }
-    }
+            window.location.hash = "#user-info"; // Navigasi ke elemen user info
 
+
+     //Show notification success
+     const confirmationMessage = document.getElementById('confirmation-message');
+     confirmationMessage.textContent = "Profile updated successfully!";
+     confirmationMessage.style.display = "block";
+
+     // remove after 3 second
+     setTimeout(() => {
+         confirmationMessage.style.display = "none";
+     }, 3000);
+ }
+}
     // Display current date and time
     function updateTime() {
         const now = new Date();
